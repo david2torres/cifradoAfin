@@ -193,29 +193,20 @@ export class AppComponent {
     console.log("mapPrincipal", myMap)
     let auxMore: Map<string, number> = this.setMap(myMap, 1, 0);
     this.arrMore = Array.from(auxMore, ([name, value]) => ({ name, value }));
-    console.log("Aux More", auxMore)
-    //Valid menore
-    let auxLess: Map<string, number> = this.setMap(myMap, 2, 1);
-    this.arrLess = Array.from(auxLess, ([name, value]) => ({ name, value }));
-    console.log("Aux Less", auxLess)
+    console.log("Aux More", this.arrMore)
     this.show = true;
-
   }
 
   setMap(myMap: any, consult: number, cont: number) {
     let aux = new Map<string, number>();
-    let consulta;
-    for (const entry of myMap.entries()) {
-      consult == 1 ? consulta = entry[1] > cont : consulta = entry[1] < cont
-      if (consulta) {
-        cont = entry[1];
-        aux.clear();
+    myMap = new Map([...myMap.entries()].sort((a, b) => b[1] - a[1]));
+    let tam = 0;
+    for (const entry of myMap.entries()){
+      if(tam < 2){
         aux.set(entry[0], entry[1])
-      } else if (entry[1] == cont) {
-        aux.set(entry[0], entry[1])
-      } else if (entry[1] >= cont) {
-        cont = entry[1];
+        console.log(tam)
       }
+      tam += 1
     }
     console.log("Aux", aux)
     return aux;
